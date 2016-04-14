@@ -14,6 +14,7 @@ import cn.w28l30.domain.QueryInfo;
 import cn.w28l30.domain.QueryResult;
 import cn.w28l30.exception.DaoException;
 import cn.w28l30.utils.BeanHandler;
+import cn.w28l30.utils.IntHandler;
 import cn.w28l30.utils.JdbcUtils;
 import cn.w28l30.utils.ListHandler;
 
@@ -83,44 +84,22 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public QueryResult pageQuery(QueryInfo info) {
 		// TODO Auto-generated method stub
-		Connection conn = null;
-		PreparedStatement st = null;
-		ResultSet rs = null;
 		QueryResult qr = new QueryResult();
 		try {
-			conn = JdbcUtils.getConnection();
 			String sql = "select * from customer limit ?, ?";
-			st = conn.prepareStatement(sql);
-			st.setInt(1, info.getStartIndex());
-			st.setInt(2, info.getPageSize());
-			rs = st.executeQuery();
-			List list = new ArrayList<>();
-			while (rs.next()) {
-				Customer c = new Customer();
-				c.setBirthday(rs.getDate("birthday"));
-				c.setEmail(rs.getString("email"));
-				c.setId(rs.getString("id"));
-				c.setCellphone(rs.getString("cellphone"));
-				c.setDescription(rs.getString("description"));
-				c.setGender(rs.getString("gender"));
-				c.setName(rs.getString("name"));
-				c.setType(rs.getString("type"));
-				c.setPreference(rs.getString("preference"));
-				list.add(c);
-			}
+			Object[] params = {info.getStartIndex(),info.getPageSize()};
+			List list = (List) JdbcUtils.query(sql, params, new ListHandler(Customer.class));
+
 			qr.setList(list);
 			
 			sql = "select count(*) from customer";
-			st = conn.prepareStatement(sql);
-			rs = st.executeQuery();
-			if (rs.next()) {
-				qr.setTotalRecord(rs.getInt(1));
-			}
+			params = new Object[]{};
+			int totalRecord = (Integer) JdbcUtils.query(sql, params, new IntHandler());
+			
+			qr.setTotalRecord(totalRecord);
 			return qr;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		} finally {
-			JdbcUtils.release(conn, st, rs);
 		}
 	}
 
