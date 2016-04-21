@@ -59,12 +59,12 @@ public class WebCacheFilter implements Filter {
 		System.out.println("filter");
 		if (buffer != null) {
 			resp.getOutputStream().write(buffer);
-			chain.doFilter(request, response);
+			chain.doFilter(request, response); //should add this line, or it will be messy code
 			return;
 		}
 		//3.if not, get the resource and get a response wrapper and write the resource into the buffer array
 		MyResponse myResponse = new MyResponse(resp); 
-		chain.doFilter(request, myResponse);
+		chain.doFilter(request, myResponse); 
 		
 		buffer = myResponse.getBuffer();
 		map.put(uri, buffer);
