@@ -37,7 +37,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		// TODO Auto-generated method stub
 		try {
 			String sql = "update customer set name=?, gender=?, birthday=?, cellphone=?, email=?, preference=?, type=?, description=? where id=?";
-			Object[] param = {c.getId(),c.getGender(),new java.sql.Date(c.getBirthday().getTime()),c.getCellphone(),c.getEmail(),c.getPreference(),c.getType(),c.getDescription(), c.getId()};
+			Object[] param = {c.getName(),c.getGender(),new java.sql.Date(c.getBirthday().getTime()),c.getCellphone(),c.getEmail(),c.getPreference(),c.getType(),c.getDescription(), c.getId()};
 			JdbcUtils.update(sql, param);
 		} catch (Exception e) {
 			throw new DaoException(e);

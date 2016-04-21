@@ -69,13 +69,13 @@
 			<tr>
 				<td>Preference</td>
 				<td><c:forEach var="preference" items="${preferences}">
-						<input name="pre" type="checkbox" value="${preference }">${preference }
+						<input name="pre" type="checkbox" value="${preference }"  ${fn:contains(customer.preference, preference)?'checked':''}>${preference }
 				</c:forEach></td>
 			</tr>
 			<tr>
 				<td>Type</td>
 				<td><c:forEach var="type" items="${types}">
-						<input name="type" type="radio" value="${type }">${type }
+						<input name="type" type="radio" value="${type }" ${customer.type==type?'checked':'' }>${type }
 				</c:forEach></td>
 			</tr>
 			<tr>
@@ -84,7 +84,7 @@
 			</tr>
 			<tr>
 				<td><input type="reset" value="reset"></td>
-				<td><input type="submit" value="submit"></td>
+				<td><input type="submit" value="update"></td>
 			</tr>
 		</table>
 	</form>
