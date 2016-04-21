@@ -41,6 +41,6 @@
   </filter>
   <filter-mapping>
     <filter-name>WebCacheFilter</filter-name>
-    <url-pattern>/addcustomer.jsp</url-pattern>
+    <url-pattern>/AddCustomerServlet</url-pattern>
   </filter-mapping>
 </web-app>

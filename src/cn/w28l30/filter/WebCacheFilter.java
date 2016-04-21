@@ -56,8 +56,10 @@ public class WebCacheFilter implements Filter {
 		String uri = req.getRequestURI();
 		//2.check whether the resource exist in map, if yes return the source
 		byte[] buffer = map.get(uri);
+		System.out.println("filter");
 		if (buffer != null) {
 			resp.getOutputStream().write(buffer);
+			chain.doFilter(request, response);
 			return;
 		}
 		//3.if not, get the resource and get a response wrapper and write the resource into the buffer array
@@ -91,7 +93,7 @@ public class WebCacheFilter implements Filter {
 		@Override
 		public PrintWriter getWriter() throws IOException {
 			// TODO Auto-generated method stub
-			pw = new PrintWriter(new OutputStreamWriter(bout,response.getCharacterEncoding()));
+			pw = new PrintWriter(new OutputStreamWriter(bout,this.response.getCharacterEncoding()));
 			return pw;
 		}
 
